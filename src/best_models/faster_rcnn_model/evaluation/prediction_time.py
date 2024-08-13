@@ -47,7 +47,7 @@ def inference(img, device, model):
 model, preprocess = get_faster_rcnn_model(num_classes=NUM_CLASSES)
 model.to(device)
 
-model = torch.load("../model/faster_rcnn_batch_32_epochs_40.pth")
+model = torch.load("../model/faster_rcnn_batch_16_epochs_40.pth")
 
 model.eval()
 
