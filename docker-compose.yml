@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  test:
+    image: nvidia/cuda:12.3.1-base-ubuntu20.04
+    tty: true
+    container_name: object-tracking
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DISPLAY=novnc:0.0
+    depends_on:
+      - novnc
+    networks:
+      - x11
+    volumes:
+      - ./src:/root/src
+  novnc:
+    image: theasp/novnc:latest
+    environment:
+      # Adjust to your screen size
+      - DISPLAY_WIDTH=1600
+      - DISPLAY_HEIGHT=968
+      - RUN_XTERM=no
+    ports:
+      - "8080:8080"
+    networks:
+      - x11
+networks:
+  x11:
